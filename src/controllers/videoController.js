@@ -39,14 +39,22 @@ export const home = async (req, res) => {
 };
 
 export const watch = async (req, res) => {
-  console.log(req.params);
   const { id } = req.params;
   const video = await Video.findById(id);
 
-  res.render("watch", {
-    tabTitle: "Watch Video",
-    pageTitle: `Watching ${video.title}`,
-    seoDescription: "Potube에서 비디오를 보는 곳입니다",
+  if (video) {
+    return res.render("watch", {
+      tabTitle: "Watch Video",
+      pageTitle: `Watching ${video.title}`,
+      seoDescription: "Potube에서 비디오를 보는 곳입니다",
+      video,
+      tempUser,
+    });
+  }
+  return res.render("404", {
+    tabTitle: "Error",
+    pageTitle: "404 Not Found",
+    seoDescription: "404 Not Found",
     video,
     tempUser,
   });
