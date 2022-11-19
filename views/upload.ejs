@@ -1,0 +1,14 @@
+<%- include('partials/header'); %>
+<h1><%= pageTitle %></h1>
+<div>
+	<% if(errorMessage) { %>
+		<h4>⚠️ <%= errorMessage %></h4>
+	<% } %>
+	<form method="POST">
+		<input name="title" placeholder="Title", maxLength=50, required />
+		<input name="description" placeholder="Description", minLength=10, required />
+		<input name="hashTags" placeholder="Hash Tags, seaprated by comma",  required />
+		<button>Upload Video</button>
+	</form>
+</div>
+<%- include('partials/footer'); %>

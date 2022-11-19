@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<h1><%= pageTitle %></h1>
+<div>
+  <h3>
+    <% if(video.meta.views <= 1) { %>
+      <%= video.meta.views %> view
+    <% } else { %> 
+      <%= video.meta.views %> views
+    <% } %>
+    </h3>
+    <p><%= video.description %></p>
+    <small><%= video.createdAt %></small>
+    <div>
+      <a href="<%= video.id %>/edit">Edit Video &rarr;</a>
+    </div>
+</div>
+
+<%- include('partials/footer'); %>

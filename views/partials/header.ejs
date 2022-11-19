@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <%- include('seo'); %>
+  </head>
+  <body>
+    <header>
+      <div>
+        <% if(tempUser && tempUser.loggedIn) { %>
+          <%= tempUser.username %>
+        <% } %>
+        </div>
+      <nav>
+        <ul>
+          <% if(tempUser && tempUser.loggedIn) { %>
+            <li><a href="/logout">Logout</a></li>
+          <% } else { %>
+            <li><a href="/login">Login</a></li>
+          <% } %>
+        </ul>
+      </nav>
+      <nav>
+        <ul>
+          <li>
+            <a href="/videos/upload">Upload Video</a>
+          </li>
+        </ul>
+      </nav>
+    </header>

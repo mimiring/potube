@@ -1,0 +1,18 @@
+<%- include('partials/header'); %>
+<h1>HOME</h1>
+<div>
+  <h2>Welcome here you will see the trending videos</h2>
+  <% if(videos.length) { %>
+    <ul style="list-style:none;">
+      <% for(video of videos) { %>
+     <%- include('mixins/video') %>
+      <% } %>
+    </ul>
+  <% } else { %>
+    <div>Sorry nothing found.</div>
+  <% } %>
+
+  <button>Send</button>
+</div>
+
+<%- include('partials/footer'); %>

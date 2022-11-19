@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+
+<h1><%= pageTitle %></h1>
+<h4>Change Title of Video</h4>
+<form method="POST">
+  <label for="title">Title</label>
+  <input name="title" placeholder="Enter New Video Title" value="<%= video.title %>" required />
+  <button type="submit">Save</button>
+</form>
+
+<%- include('partials/footer'); %>
+
