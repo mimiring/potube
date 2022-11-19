@@ -42,32 +42,44 @@ export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
 
-  if (video) {
-    return res.render("watch", {
-      tabTitle: "Watch Video",
-      pageTitle: `Watching ${video.title}`,
-      seoDescription: "Potube에서 비디오를 보는 곳입니다",
+  if (!video) {
+    return res.render("404", {
+      tabTitle: "Error",
+      pageTitle: "404 Not Found",
+      seoDescription: "404 Not Found",
       video,
       tempUser,
     });
   }
-  return res.render("404", {
-    tabTitle: "Error",
-    pageTitle: "404 Not Found",
-    seoDescription: "404 Not Found",
+
+  return res.render("watch", {
+    tabTitle: "Watch Video",
+    pageTitle: `Watching ${video.title}`,
+    seoDescription: "Potube에서 비디오를 보는 곳입니다",
     video,
     tempUser,
   });
 };
 
-export const getEdit = (req, res) => {
-  // const { id } = req.params;
+export const getEdit = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
 
-  res.render("edit", {
+  if (!video) {
+    return res.render("404", {
+      tabTitle: "Error",
+      pageTitle: "404 Not Found",
+      seoDescription: "404 Not Found",
+      video,
+      tempUser,
+    });
+  }
+
+  return res.render("edit", {
     tabTitle: "Watch Video",
-    pageTitle: `Editing`,
+    pageTitle: `Edit : ${video.title}`,
     seoDescription: "Potube에서 비디오를 보는 곳입니다",
-    videos: [],
+    video,
     tempUser,
   });
 };

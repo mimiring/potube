@@ -4,7 +4,9 @@
 <h4>Change Title of Video</h4>
 <form method="POST">
   <label for="title">Title</label>
-  <input name="title" placeholder="Enter New Video Title" value="<%= video.title %>" required />
+  <input name="title" placeholder="Enter New Video Title" value="<%= video.title %>", maxlength=50, required />
+  <input name="description" placeholder="Description", value="<%= video.description %>", minLength=10, required />
+  <input name="hashTags" placeholder="Hash Tags, seaprated by comma", value="<%= video.hashTags %>", required />
   <button type="submit">Save</button>
 </form>
 
