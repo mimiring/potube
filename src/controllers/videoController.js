@@ -89,7 +89,7 @@ export const postEdit = (req, res) => {
   const { title } = req.body;
   [id - 1].title = title;
 
-  return res.redirect(`//${id}`);
+  return res.redirect(`/videos/${id}`);
 };
 
 export const getUpload = (req, res) => {
