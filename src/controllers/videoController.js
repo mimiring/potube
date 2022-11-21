@@ -101,7 +101,9 @@ export const postEdit = async (req, res) => {
 
   video.title = title;
   video.description = description;
-  video.hashTags = hashTags.split(",").map((word) => `#${word}`);
+  video.hashTags = hashTags
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
   await video.save();
   return res.redirect(`/videos/${id}`);
 };
