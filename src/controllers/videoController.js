@@ -84,11 +84,25 @@ export const getEdit = async (req, res) => {
   });
 };
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
   const { id } = req.params;
-  const { title } = req.body;
-  [id - 1].title = title;
+  const { title, description, hashTags } = req.body;
 
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", {
+      tabTitle: "Error",
+      pageTitle: "Video Not Found",
+      seoDescription: "404 Not Found",
+      video,
+      tempUser,
+    });
+  }
+
+  video.title = title;
+  video.description = description;
+  video.hashTags = hashTags.split(",").map((word) => `#${word}`);
+  await video.save();
   return res.redirect(`/videos/${id}`);
 };
 
