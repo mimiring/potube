@@ -88,8 +88,8 @@ export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashTags } = req.body;
 
-  const video = await Video.findById(id);
-  if (!video) {
+  const isExistsVideo = await Video.exists({ _id: id });
+  if (!isExistsVideo) {
     return res.render("404", {
       tabTitle: "Error",
       pageTitle: "Video Not Found",
@@ -99,12 +99,14 @@ export const postEdit = async (req, res) => {
     });
   }
 
-  video.title = title;
-  video.description = description;
-  video.hashTags = hashTags
-    .split(",")
-    .map((word) => (word.startsWith("#") ? word : `#${word}`));
-  await video.save();
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashTags: hashTags
+      .split(",")
+      .map((word) => (word.startsWith("#") ? word : `#${word}`)),
+  });
+
   return res.redirect(`/videos/${id}`);
 };
 
