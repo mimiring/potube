@@ -127,7 +127,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashTags: hashTags.split(",").map((hashTag) => `#${hashTag}`),
+      hashTags,
     });
   } catch (error) {
     console.log(error);
