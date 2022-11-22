@@ -2,6 +2,11 @@
 	<h4><a href="/videos/<%= video.id %>"><%= video.title %></a></h4>
 	<div>
 		<p><%= video.description %></p>
+		<div>
+		<% for(let i=0; i<video.hashTags.length; i++) { %>
+			<span><%= video.hashTags[i] %></span>
+		<% } %>
+		</div>
 		<small><%= video.createdAt %></small>
 	</div>
 </li>

@@ -10,7 +10,11 @@
     <% } %>
     </h3>
     <p><%= video.description %></p>
-    <p><%= video.hashTags %></p>
+    <div>
+      <% for(let i=0; i<video.hashTags.length; i++) { %>
+        <span><%= video.hashTags[i] %></span>
+      <% } %>
+    </div>
     <small><%= video.createdAt %></small>
     <div>
       <a href="<%= video.id %>/edit">Edit Video &rarr;</a>

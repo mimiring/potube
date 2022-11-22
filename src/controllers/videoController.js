@@ -1,4 +1,4 @@
-import Video, { formatHashTags } from "../models/Video";
+import Video from "../models/Video";
 
 const tempUser = {
   username: "Posi",
@@ -102,7 +102,7 @@ export const postEdit = async (req, res) => {
   await Video.findByIdAndUpdate(id, {
     title,
     description,
-    hashTags: formatHashTags(hashTags),
+    hashTags: Video.formatHashTags(hashTags),
   });
 
   return res.redirect(`/videos/${id}`);
@@ -125,7 +125,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashTags: formatHashTags(hashTags),
+      hashTags: Video.formatHashTags(hashTags),
     });
   } catch (error) {
     console.log(error);
