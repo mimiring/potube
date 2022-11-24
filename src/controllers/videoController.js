@@ -35,7 +35,7 @@ export const home = async (req, res) => {
       videos,
       tempUser,
     });
-  });
+  }).sort({ createdAt: "desc" });
 };
 
 export const watch = async (req, res) => {
@@ -143,9 +143,22 @@ export const postUpload = async (req, res) => {
 };
 
 export const search = (req, res) => {
-  res.send("Search Video");
+  const { keyword } = req.query;
+  if (keyword) {
+    // search
+  }
+
+  return res.render("search", {
+    tabTitle: "Search",
+    seoDescription: "Potube에서 비디오를 찾는 곳입니다",
+    tempUser,
+    errorMessage: null,
+  });
 };
 
-export const deleteVideo = (req, res) => {
-  res.send("Delete Video");
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+  await Video.findByIdAndDelete(id);
+
+  return res.redirect("/");
 };
