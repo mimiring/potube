@@ -142,10 +142,14 @@ export const postUpload = async (req, res) => {
   return res.redirect("/");
 };
 
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const { keyword } = req.query;
+  let searchedVideos = [];
+
   if (keyword) {
-    // search
+    searchedVideos = await Video.find({
+      title: { $regex: new RegExp(keyword, "i") },
+    });
   }
 
   return res.render("search", {
@@ -153,6 +157,7 @@ export const search = (req, res) => {
     seoDescription: "Potube에서 비디오를 찾는 곳입니다",
     tempUser,
     errorMessage: null,
+    searchedVideos,
   });
 };
 

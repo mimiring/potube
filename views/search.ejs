@@ -4,6 +4,10 @@
   <input placeholder="Search by title", name="keyword", type="text" />
   <button>Search now</button>
   </form>
-
+  <ul>
+    <% for(let i=0; i<searchedVideos.length; i++) { %>  
+    <li><%= searchedVideos[i].title %></li>
+    <% } %>
+  </ul>
 </div>
 <%- include('partials/footer'); %>
