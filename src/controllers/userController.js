@@ -1,6 +1,17 @@
-export const join = (req, res) => {
-  res.send("Join");
+export const getJoin = (req, res) => {
+  res.render("join", {
+    tabTitle: "Create Account",
+    seoDescription: "Potube에 가입하는 곳입니다",
+    errorMessage: null,
+    tempUser: [],
+  });
 };
+
+export const postJoin = (req, res) => {
+  console.log(req.body);
+  res.end();
+};
+
 export const edit = (req, res) => {
   res.send("Edit User");
 };
