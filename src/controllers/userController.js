@@ -10,8 +10,26 @@ export const getJoin = (req, res) => {
 };
 
 export const postJoin = async (req, res) => {
-  const { name, username, email, password, location } = req.body;
+  const { name, username, email, password, password2, location } = req.body;
+  const exists = await User.exists({ $or: [{ username }, { email }] });
 
+  if (password !== password2) {
+    return res.render("join", {
+      tabTitle: "Join",
+      seoDescription: "Potube에 가입하는 곳입니다",
+      errorMessage: "Password confirmation does not match.",
+      tempUser: [],
+    });
+  }
+
+  if (exists) {
+    return res.render("join", {
+      tabTitle: "Join",
+      seoDescription: "Potube에 가입하는 곳입니다",
+      errorMessage: "This username/email is already taken.",
+      tempUser: [],
+    });
+  }
   await User.create({ name, username, email, password, location });
   return res.redirect("/login");
 };
