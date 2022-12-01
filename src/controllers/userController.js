@@ -23,7 +23,7 @@ export const postJoin = async (req, res) => {
   }
 
   if (exists) {
-    return res.render("join", {
+    return res.status(400).render("join", {
       tabTitle: "Join",
       seoDescription: "Potube에 가입하는 곳입니다",
       errorMessage: "This username/email is already taken.",
