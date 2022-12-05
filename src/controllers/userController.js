@@ -42,8 +42,32 @@ export const remove = (req, res) => {
   res.send("Deltet User");
 };
 
-export const login = (req, res) => {
-  res.send("Login");
+export const getLogin = (req, res) => {
+  res.render("login", {
+    tabTitle: "Login",
+    pageTitle: "Login",
+    seoDescription: "Potube에 로그인하는 곳입니다",
+    errorMessage: null,
+    tempUser: [],
+  });
+};
+
+export const postLogin = async (req, res) => {
+  // check if account exists
+  const { email, password } = req.body;
+
+  const exists = await User.exists({ email });
+
+  if (!exists) {
+    return res.status(400).render("login", {
+      tabTitle: "Login",
+      seoDescription: "Potube에 가입하는 곳입니다",
+      errorMessage: "An account with this username does not exists",
+      tempUser: [],
+    });
+  }
+  // check if password correct
+  res.end();
 };
 
 export const logout = (req, res) => {

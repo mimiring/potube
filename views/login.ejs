@@ -1,0 +1,22 @@
+<%- include('partials/header'); %>
+<div>
+  <% if(errorMessage) { %>
+    <h4 style="color: red">⚠️<%= errorMessage %></h4>
+  <% } %>
+  <h1><%= pageTitle %></h1>
+  <form method="POST">
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" required/>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required/>
+    <button>Login</button>
+  </form>
+
+  <hr>
+  <div>
+    <span>Don't have an account?</span>
+    <a href="join">Careate one now &rarr;</a>
+  </div>
+</div>
+
+<%- include('partials/footer'); %>
