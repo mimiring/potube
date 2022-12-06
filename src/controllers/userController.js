@@ -1,4 +1,5 @@
 import User from "../models/User";
+import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => {
   res.render("join", {
@@ -54,20 +55,34 @@ export const getLogin = (req, res) => {
 
 export const postLogin = async (req, res) => {
   // check if account exists
+  const tabTitle = "Login";
+  const pageTitle = "Login";
   const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-  const exists = await User.exists({ email });
-
-  if (!exists) {
+  if (!user) {
     return res.status(400).render("login", {
-      tabTitle: "Login",
+      tabTitle,
+      pageTitle,
       seoDescription: "Potube에 가입하는 곳입니다",
       errorMessage: "An account with this username does not exists",
       tempUser: [],
     });
   }
-  // check if password correct
-  res.end();
+
+  const ok = await bcrypt.compare(password, user.password);
+  if (!ok) {
+    return res.status(400).render("login", {
+      tabTitle,
+      pageTitle,
+      seoDescription: "Potube에 가입하는 곳입니다",
+      errorMessage: "Wrong Password.",
+      tempUser: [],
+    });
+  }
+
+  console.log("LOG USER IN! COMING SOON!");
+  return res.redirect("/");
 };
 
 export const logout = (req, res) => {
