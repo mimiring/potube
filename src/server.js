@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "message no one knows",
-    resave: true, // consoledp 나타나는 것
+    resave: true,
     saveUninitialized: true,
   })
 );
@@ -25,6 +25,11 @@ app.use((req, res, next) => {
     console.log(sessions);
     next();
   });
+});
+
+app.get("/add-one", (req, res, next) => {
+  req.session.gogu += 1;
+  return res.send(`${req.session.id}\n ${req.session.gogu}`);
 });
 
 app.use("/", rootRouter);
