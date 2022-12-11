@@ -9,32 +9,28 @@
   </head>
   <body>
     <header>
-      <div>
-        <% if(tempUser && tempUser.loggedIn) { %>
-          <%= tempUser.username %>
-        <% } %>
-        </div>
-      <nav>
-        <ul>
-          <% if(tempUser && tempUser.loggedIn) { %>
-            <li><a href="/logout">Logout</a></li>
-          <% } else { %>
-            <li><a href="/login">Login</a></li>
-            <li>
-              <a href="/join">Join</a>
-            </li>
-          <% } %>
-        </ul>
-      </nav>
       <nav>
         <ul>
           <li>
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/videos/upload">Upload Video</a>
-          </li>
-
+            <% if(loggedIn) { %>
+                  <a href="/my-profile">
+                  <%= loggedInUser.username %>의 Profile
+                </a>
+            </li>
+            <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+              <li><a href="/login">Login</a></li>
+              <li>
+                <a href="/join">Join</a>
+              </li>
+            <% } %>
+            <li>
+              <a href="/videos/upload">Upload Video</a>
+            </li>
+  
         </ul>
       </nav>
     </header>
