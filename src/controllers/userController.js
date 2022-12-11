@@ -81,8 +81,16 @@ export const postLogin = async (req, res) => {
     });
   }
 
-  console.log("LOG USER IN! COMING SOON!");
-  return res.redirect("/");
+  req.session.user = user;
+  req.session.user.loggedIn = true;
+
+  return res.render("login", {
+    tabTitle,
+    pageTitle,
+    seoDescription: "Potube에 가입하는 곳입니다",
+    errorMessage: null,
+    tempUser: req.session.user,
+  });
 };
 
 export const logout = (req, res) => {
