@@ -162,6 +162,7 @@ export const finishGithubLogin = async (req, res) => {
         username: userData.login,
         email: userData.email,
         password: "",
+        avatarUrl: userData.avatar_url,
         location: userData.location,
       });
 
