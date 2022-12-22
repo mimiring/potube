@@ -111,6 +111,7 @@ export const finishGithubLogin = async (req, res) => {
 
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
+
   const tokenRequest = await (
     await fetch(finalUrl, {
       method: "POST",
@@ -122,15 +123,53 @@ export const finishGithubLogin = async (req, res) => {
 
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
-    const userRequest = await (
-      await fetch("https://api.github.com/user", {
+    const apiUrl = "https://api.github.com";
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
         headers: {
           Authorization: `token ${access_token}`,
         },
       })
     ).json();
 
-    console.log(userRequest);
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+
+    const emailObject = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+
+    if (!emailObject) {
+      return res.redirect("/login");
+    }
+
+    const existingUser = await User.findOne({ email: emailObject.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+
+      return res.redirect("/");
+    } else {
+      // create an account
+      const user = await User.create({
+        name: userData.name,
+        githubLoginOnly: true,
+        username: userData.login,
+        email: userData.email,
+        password: "",
+        location: userData.location,
+      });
+
+      req.session.loggedIn = true;
+      req.session.user = user;
+
+      return res.redirect("/");
+    }
   } else {
     return res.redirect("/login");
   }
