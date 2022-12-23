@@ -59,7 +59,7 @@ export const postLogin = async (req, res) => {
   const tabTitle = "Login";
   const pageTitle = "Login";
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email, githubLoginOnly: false });
 
   if (!user) {
     return res.status(400).render("login", {
