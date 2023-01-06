@@ -27,7 +27,14 @@ export const postJoin = async (req, res) => {
         errorMessage: "This username/email is already taken.",
       });
     }
-    await User.create({ name, username, email, password, location });
+    await User.create({
+      name,
+      username,
+      email,
+      password,
+      location,
+      githubLoginOnly: false,
+    });
 
     return res.send({ ok: true });
   } catch (error) {
@@ -55,35 +62,25 @@ export const getLogin = (req, res) => {
 
 export const postLogin = async (req, res) => {
   // check if account exists
-  const tabTitle = "Login";
-  const pageTitle = "Login";
   const { email, password } = req.body;
   const user = await User.findOne({ email, githubLoginOnly: false });
 
   if (!user) {
-    return res.status(400).render("login", {
-      tabTitle,
-      pageTitle,
-      seoDescription: "Potube에 가입하는 곳입니다",
-      errorMessage: "An account with this username does not exists",
-      tempUser: [],
+    return res.status(400).send({
+      errorMessage: "An account with this email does not exists",
     });
   }
 
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
-    return res.status(400).render("login", {
-      tabTitle,
-      pageTitle,
-      seoDescription: "Potube에 가입하는 곳입니다",
+    return res.status(400).send({
       errorMessage: "Wrong Password.",
-      tempUser: [],
     });
   }
 
   req.session.loggedIn = true;
   req.session.user = user;
-  return res.redirect("/");
+  return res.send({ ok: true });
 };
 
 export const startGithubLogin = (req, res) => {
