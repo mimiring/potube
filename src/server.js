@@ -6,6 +6,7 @@ import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
+import cors from "cors";
 
 const app = express();
 const logger = morgan("dev");
@@ -13,6 +14,8 @@ app.set("view engine", "ejs");
 
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
 app.use(
   session({

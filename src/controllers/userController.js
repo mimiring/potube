@@ -12,28 +12,27 @@ export const getJoin = (req, res) => {
 };
 
 export const postJoin = async (req, res) => {
-  const { name, username, email, password, password2, location } = req.body;
-  const exists = await User.exists({ $or: [{ username }, { email }] });
+  try {
+    const { name, username, email, password, password2, location } = req.body;
+    const exists = await User.exists({ $or: [{ username }, { email }] });
 
-  if (password !== password2) {
-    return res.render("join", {
-      tabTitle: "Join",
-      seoDescription: "Potube에 가입하는 곳입니다",
-      errorMessage: "Password confirmation does not match.",
-      tempUser: [],
-    });
-  }
+    if (password !== password2) {
+      return res.status(400).send({
+        errorMessage: "Password confirmation does not match.",
+      });
+    }
 
-  if (exists) {
-    return res.status(400).render("join", {
-      tabTitle: "Join",
-      seoDescription: "Potube에 가입하는 곳입니다",
-      errorMessage: "This username/email is already taken.",
-      tempUser: [],
-    });
+    if (exists) {
+      return res.status(400).send({
+        errorMessage: "This username/email is already taken.",
+      });
+    }
+    await User.create({ name, username, email, password, location });
+
+    return res.send({ ok: true });
+  } catch (error) {
+    return res.status(400).send({ errorMessage: "unexpected error" });
   }
-  await User.create({ name, username, email, password, location });
-  return res.redirect("/login");
 };
 
 export const edit = (req, res) => {
