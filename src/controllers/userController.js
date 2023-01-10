@@ -42,8 +42,26 @@ export const postJoin = async (req, res) => {
   }
 };
 
-export const edit = (req, res) => {
-  res.send("Edit User");
+export const putEditProfile = async (req, res) => {
+  const newUserInfo = req.body;
+  const email = newUserInfo.email;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(400).send({
+      errorMessage: "An account with this email does not exists",
+    });
+  }
+
+  if (newUserInfo.password !== newUserInfo.password2) {
+    return res.status(400).send({
+      errorMessage: "Password confirmation does not match.",
+    });
+  } else {
+    await User.findByIdAndUpdate(user._id, newUserInfo);
+  }
+
+  res.send({ ok: true, user: newUserInfo });
 };
 
 export const remove = (req, res) => {
@@ -80,7 +98,7 @@ export const postLogin = async (req, res) => {
 
   req.session.loggedIn = true;
   req.session.user = user;
-  return res.send({ ok: true });
+  return res.send({ ok: true, user });
 };
 
 export const startGithubLogin = (req, res) => {
