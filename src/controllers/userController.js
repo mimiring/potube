@@ -2,15 +2,6 @@ import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
-export const getJoin = (req, res) => {
-  res.render("join", {
-    tabTitle: "Create Account",
-    seoDescription: "Potube에 가입하는 곳입니다",
-    errorMessage: null,
-    tempUser: [],
-  });
-};
-
 export const postJoin = async (req, res) => {
   try {
     const { name, username, email, password, password2, location } = req.body;
@@ -66,16 +57,6 @@ export const putEditProfile = async (req, res) => {
 
 export const remove = (req, res) => {
   res.send("Deltet User");
-};
-
-export const getLogin = (req, res) => {
-  res.render("login", {
-    tabTitle: "Login",
-    pageTitle: "Login",
-    seoDescription: "Potube에 로그인하는 곳입니다",
-    errorMessage: null,
-    tempUser: [],
-  });
 };
 
 export const postLogin = async (req, res) => {
@@ -191,9 +172,14 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.session.destroy();
+  const isDestoried = req.session.destroy();
 
-  return res.redirect("/");
+  if (!isDestoried) {
+    return res.status(400).send({
+      errorMessage: "Something Wrong.",
+    });
+  }
+  return res.send({ ok: true });
 };
 
 export const see = (req, res) => {
