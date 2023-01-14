@@ -49,7 +49,8 @@ export const putEditProfile = async (req, res) => {
       errorMessage: "Password confirmation does not match.",
     });
   } else {
-    await User.findByIdAndUpdate(user._id, newUserInfo);
+    newUserInfo.password = await bcrypt.hash(newUserInfo.password, 5);
+    await User.findOneAndUpdate(user._id, newUserInfo);
   }
 
   res.send({ ok: true, user: newUserInfo });
