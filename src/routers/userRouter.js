@@ -10,9 +10,9 @@ import {
 const userRouter = express.Router();
 
 userRouter.route("/editProfile").put(putEditProfile);
-userRouter.get("/remove", remove);
-userRouter.get("/github/start", startGithubLogin);
-userRouter.get("/github/finish", finishGithubLogin);
-userRouter.get("/:id", see);
+userRouter.route("/remove").get(remove);
+userRouter.route("/github/start").get(startGithubLogin);
+userRouter.route("/github/finish").get(finishGithubLogin);
+userRouter.route("/:id").get(see);
 
 export default userRouter;
