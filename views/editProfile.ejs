@@ -1,0 +1,19 @@
+<%- include('partials/header'); %>
+<div>
+  <% if(errorMessage) { %>
+    <h4 style="color: red">⚠️<%= errorMessage %></h4>
+  <% } %>
+  <form method="POST">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" value=<%= loggedInUser.email %> required/>
+    <label for="username">User Name</label>
+    <input type="text" name="username" id="username" value=<%= loggedInUser.username %> required/>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value=<%= loggedInUser.name %> required/>
+    <label for="location">Location</label>
+    <input type="text" name="location" id="location" value=<%= loggedInUser.location %> required/>
+    <button>Save</button>
+  </form>
+</div>
+
+<%- include('partials/footer'); %>

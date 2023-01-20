@@ -36,8 +36,31 @@ export const postJoin = async (req, res) => {
   return res.redirect("/login");
 };
 
-export const edit = (req, res) => {
-  res.send("Edit User");
+export const getEdit = (req, res) => {
+  res.render("editProfile", {
+    tabTitle: "Edit Profile",
+    seoDescription: "User Profile을 수정하는 곳입니다",
+    errorMessage: null,
+    tempUser: [],
+  });
+};
+
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+
+  await User.findByIdAndUpdate(_id, {
+    name,
+    email,
+    username,
+    location,
+  });
+
+  return res.redirect("/");
 };
 
 export const remove = (req, res) => {
@@ -84,6 +107,7 @@ export const postLogin = async (req, res) => {
 
   req.session.loggedIn = true;
   req.session.user = user;
+
   return res.redirect("/");
 };
 

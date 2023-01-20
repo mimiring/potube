@@ -16,21 +16,21 @@
           </li>
           <li>
             <% if(loggedIn) { %>
-                  <a href="/my-profile">
+                  <a href="/users/edit-profile">
                   <%= loggedInUser.username %>의 Profile
                 </a>
             </li>
             <li><a href="/users/logout">Logout</a></li>
+            <li>
+              <a href="/videos/upload">Upload Video</a>
+            </li>
             <% } else { %>
               <li><a href="/login">Login</a></li>
               <li>
                 <a href="/join">Join</a>
               </li>
             <% } %>
-            <li>
-              <a href="/videos/upload">Upload Video</a>
-            </li>
-  
+          
         </ul>
       </nav>
     </header>
