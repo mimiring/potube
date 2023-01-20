@@ -50,7 +50,7 @@ export const postEdit = async (req, res) => {
     session: {
       user: { _id },
     },
-    body: { name, email, username, location },
+    body: { name, email, username, location }, // email, username은 어차피 못바꾸는 값이지만 실습하기 위해서 받아서 사용하는 것임
   } = req;
 
   const existsEmail = req.session.user.email !== email;
