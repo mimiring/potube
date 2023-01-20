@@ -14,17 +14,17 @@ const userRouter = express.Router();
 
 userRouter
   .route("/github/start")
-  .get(startGithubLogin)
-  .all(pulicOnlyMiddleware, protectorMiddleware);
+  .all(pulicOnlyMiddleware)
+  .get(startGithubLogin);
 userRouter
   .route("/github/finish")
-  .get(finishGithubLogin)
-  .all(pulicOnlyMiddleware, protectorMiddleware);
+  .all(pulicOnlyMiddleware)
+  .get(finishGithubLogin);
 userRouter
   .route("/edit-profile")
+  .all(protectorMiddleware)
   .get(getEdit)
-  .post(postEdit)
-  .all(protectorMiddleware);
-userRouter.route("/logout").get(logout);
+  .post(postEdit);
+userRouter.route("/logout").all(protectorMiddleware).get(logout);
 
 export default userRouter;

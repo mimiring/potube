@@ -6,7 +6,7 @@ export const localsMiddleware = (req, res, next) => {
 };
 
 export const protectorMiddleware = (req, res, next) => {
-  if (req.seesion.loggedIn) {
+  if (req.session.loggedIn) {
     return next();
   } else {
     return res.redirect("/login");
@@ -17,6 +17,6 @@ export const pulicOnlyMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
-    return res.redirect(`/users/my-profile`);
+    return res.redirect(`/users/edit-profile`);
   }
 };
