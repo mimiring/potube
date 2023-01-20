@@ -53,6 +53,26 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
   } = req;
 
+  const existsEmail = req.session.user.email !== email;
+  if (existsEmail) {
+    return res.status(400).render("editProfile", {
+      tabTitle: "Edit Profile",
+      seoDescription: "User Profile을 수정하는 곳입니다",
+      errorMessage: "Email is can not change.",
+      tempUser: [],
+    });
+  }
+
+  const existsUsername = req.session.user.username !== username;
+  if (existsUsername) {
+    return res.status(400).render("editProfile", {
+      tabTitle: "Edit Profile",
+      seoDescription: "User Profile을 수정하는 곳입니다",
+      errorMessage: "Username is can not change.",
+      tempUser: [],
+    });
+  }
+
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
