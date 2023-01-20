@@ -7,14 +7,19 @@ import {
   startGithubLogin,
   finishGithubLogin,
 } from "../controllers/userController";
+import { protectorMiddleware, pulicOnlyMiddleware } from "../middlewares";
 
 const userRouter = express.Router();
 
-userRouter.get("/logout", logout);
-userRouter.get("/edit", edit);
-userRouter.get("/remove", remove);
-userRouter.get("/github/start", startGithubLogin);
-userRouter.get("/github/finish", finishGithubLogin);
-userRouter.get("/:id", see);
+userRouter
+  .route("/github/start")
+  .all(pulicOnlyMiddleware, protectorMiddleware)
+  .get(startGithubLogin);
+userRouter
+  .route("/github/finish")
+  .all(pulicOnlyMiddleware, protectorMiddleware)
+  .get(finishGithubLogin);
+userRouter.route("/:id").get(see).put(putEditProfile).delete(remove);
+userRouter.route("/edit").all(protectorMiddleware).put(putEditProfile);
 
 export default userRouter;
