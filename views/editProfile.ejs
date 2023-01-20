@@ -5,9 +5,9 @@
   <% } %>
   <form method="POST">
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" value=<%= loggedInUser.email %> required/>
+    <input type="email" name="email" id="email" value=<%= loggedInUser.email %> readonly required/>
     <label for="username">User Name</label>
-    <input type="text" name="username" id="username" value=<%= loggedInUser.username %> required/>
+    <input type="text" name="username" id="username" value=<%= loggedInUser.username %> readonly required/>
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value=<%= loggedInUser.name %> required/>
     <label for="location">Location</label>
