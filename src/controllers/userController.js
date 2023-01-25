@@ -108,10 +108,39 @@ export const getChangePassword = (req, res) => {
   });
 };
 
-export const postChangePassword = (req, res) => {
-  // send notification
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id, password },
+    },
+    body: { currentPassword, newPassword, newPassword2 },
+  } = req;
 
-  return res.redirect("/");
+  const ok = await bcrypt.compare(currentPassword, password);
+  if (!ok) {
+    return res.status(400).render("changePassword", {
+      tabTitle: "Change Password",
+      seoDescription: "User의 비밀번호를 수정하는 곳입니다.",
+      errorMessage: "The Current password is incorrect.",
+      tempUser: [],
+    });
+  }
+
+  if (newPassword !== newPassword2) {
+    return res.status(400).render("changePassword", {
+      tabTitle: "Change Password",
+      seoDescription: "User의 비밀번호를 수정하는 곳입니다.",
+      errorMessage: "New Password confirmation does not match.",
+      tempUser: [],
+    });
+  }
+
+  const user = await User.findById(_id);
+  user.password = newPassword;
+  await user.save();
+  req.session.user.password = user.password;
+
+  return res.redirect("/users/logout");
 };
 
 export const remove = (req, res) => {
