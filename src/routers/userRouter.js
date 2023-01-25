@@ -7,6 +7,8 @@ import {
   finishGithubLogin,
   postEdit,
   getEdit,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
 import { protectorMiddleware, pulicOnlyMiddleware } from "../middlewares";
 
@@ -25,6 +27,11 @@ userRouter
   .all(protectorMiddleware)
   .get(getEdit)
   .post(postEdit);
+userRouter
+  .route("/change-password")
+  .all(protectorMiddleware)
+  .get(getChangePassword)
+  .post(postChangePassword);
 userRouter.route("/logout").all(protectorMiddleware).get(logout);
 
 export default userRouter;

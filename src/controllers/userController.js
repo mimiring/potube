@@ -32,7 +32,14 @@ export const postJoin = async (req, res) => {
       tempUser: [],
     });
   }
-  await User.create({ name, username, email, password, location });
+  await User.create({
+    name,
+    username,
+    email,
+    password,
+    location,
+    githubLoginOnly: false,
+  });
   return res.redirect("/login");
 };
 
@@ -85,6 +92,25 @@ export const postEdit = async (req, res) => {
   );
 
   req.session.user = updatedUser;
+  return res.redirect("/");
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.githubLoginOnly === true) {
+    return res.redirect("/");
+  }
+
+  return res.render("changePassword", {
+    tabTitle: "Change Password",
+    seoDescription: "User의 비밀번호를 수정하는 곳입니다.",
+    errorMessage: null,
+    tempUser: [],
+  });
+};
+
+export const postChangePassword = (req, res) => {
+  // send notification
+
   return res.redirect("/");
 };
 

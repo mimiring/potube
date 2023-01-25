@@ -12,6 +12,10 @@
     <input type="text" name="name" id="name" value=<%= loggedInUser.name %> required/>
     <label for="location">Location</label>
     <input type="text" name="location" id="location" value=<%= loggedInUser.location %> required/>
+    <hr>
+    <% if(!loggedInUser.githubLoginOnly) { %>
+      <a href="change-password" style="display: block;">Change Password &rarr;</a>
+    <% } %>
     <button>Save</button>
   </form>
 </div>
