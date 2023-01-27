@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Potube";
   res.locals.loggedIn = Boolean(req.session.loggedIn);
@@ -20,3 +22,5 @@ export const pulicOnlyMiddleware = (req, res, next) => {
     return res.redirect(`/users/edit-profile`);
   }
 };
+
+export const uploadFiles = multer({ dest: "uploads/" });

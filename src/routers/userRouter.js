@@ -10,7 +10,11 @@ import {
   getChangePassword,
   postChangePassword,
 } from "../controllers/userController";
-import { protectorMiddleware, pulicOnlyMiddleware } from "../middlewares";
+import {
+  protectorMiddleware,
+  pulicOnlyMiddleware,
+  uploadFiles,
+} from "../middlewares";
 
 const userRouter = express.Router();
 
@@ -26,7 +30,7 @@ userRouter
   .route("/edit-profile")
   .all(protectorMiddleware)
   .get(getEdit)
-  .post(postEdit);
+  .post(uploadFiles.single("avatar"), postEdit);
 userRouter
   .route("/change-password")
   .all(protectorMiddleware)

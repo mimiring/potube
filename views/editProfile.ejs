@@ -3,7 +3,9 @@
   <% if(errorMessage) { %>
     <h4 style="color: red">⚠️<%= errorMessage %></h4>
   <% } %>
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
+    <label for="avatar">Avatar</label>
+    <input type="file" name="avatar" id="avatar" accept="image/*"/>
     <label for="email">Email</label>
     <input type="email" name="email" id="email" value=<%= loggedInUser.email %> readonly required/>
     <label for="username">User Name</label>
