@@ -44,16 +44,43 @@ export const putEditProfile = async (req, res) => {
     });
   }
 
-  if (newUserInfo.password !== newUserInfo.password2) {
+  res.send({ ok: true, user: newUserInfo });
+};
+
+export const putEditPassword = async (req, res) => {
+  const id = req.session.user._id;
+  const { currentPassword, newPassword, newPassword2 } = req.body.passwords;
+  const isBlankPassword =
+    currentPassword.length === 0 ||
+    newPassword.length === 0 ||
+    newPassword2.length === 0;
+
+  if (isBlankPassword) {
+    return res.status(400).send({
+      errorMessage: "Please enter your password.",
+    });
+  }
+
+  const user = await User.findById(id);
+  const isCorrectCurrentPassword = await bcrypt.compare(
+    currentPassword,
+    user.password
+  );
+
+  if (!isCorrectCurrentPassword) {
+    return res.status(400).send({
+      errorMessage: "Check your current password.",
+    });
+  }
+  if (newPassword !== newPassword2) {
     return res.status(400).send({
       errorMessage: "Password confirmation does not match.",
     });
-  } else {
-    newUserInfo.password = await bcrypt.hash(newUserInfo.password, 5);
-    await User.findOneAndUpdate(user._id, newUserInfo);
   }
 
-  res.send({ ok: true, user: newUserInfo });
+  user.password = newPassword;
+  await user.save();
+  return res.send({ ok: true });
 };
 
 export const remove = (req, res) => {
@@ -80,6 +107,7 @@ export const postLogin = async (req, res) => {
 
   req.session.loggedIn = true;
   req.session.user = user;
+
   return res.send({ ok: true, user });
 };
 
