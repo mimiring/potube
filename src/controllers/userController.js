@@ -55,12 +55,11 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, email, username, location }, // email, username은 어차피 못바꾸는 값이지만 실습하기 위해서 받아서 사용하는 것임
     file,
   } = req;
-  console.log({ file });
 
   const existsEmail = req.session.user.email !== email;
   if (existsEmail) {
@@ -85,6 +84,7 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
