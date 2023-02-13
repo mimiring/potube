@@ -2,6 +2,7 @@
 
 <h1><%= pageTitle %></h1>
 <div>
+  <video src="/<%= video.fileUrl %>" controls style="width:1000px"></video>
   <h3>
     <% if(video.meta.views <= 1) { %>
       <%= video.meta.views %> view
