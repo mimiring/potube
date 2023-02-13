@@ -94,7 +94,6 @@ export const postEdit = async (req, res) => {
       tabTitle: "Error",
       pageTitle: "Video Not Found",
       seoDescription: "404 Not Found",
-      video,
       tempUser,
     });
   }
@@ -119,27 +118,27 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
-  // here we will add a to the  array.
+  const file = req.file;
   const { title, description, hashTags } = req.body;
+
   try {
     await Video.create({
       title,
       description,
+      fileUrl: file.path,
       hashTags: Video.formatHashTags(hashTags),
     });
-  } catch (error) {
-    console.log(error);
 
+    return res.redirect("/");
+  } catch (error) {
     return res.render("upload", {
-      tabTitle: "Upload Video",
-      pageTitle: "Upload",
-      seoDescription: "Potube에서 비디오를 올리는 곳입니다",
+      tabTitle: "Error",
+      pageTitle: "Video Not Found",
+      seoDescription: "404 Not Found",
       tempUser,
       errorMessage: error._message,
     });
   }
-
-  return res.redirect("/");
 };
 
 export const search = async (req, res) => {

@@ -1,7 +1,5 @@
 import express from "express";
 import {
-  remove,
-  see,
   logout,
   startGithubLogin,
   finishGithubLogin,
@@ -13,7 +11,7 @@ import {
 import {
   protectorMiddleware,
   pulicOnlyMiddleware,
-  uploadFiles,
+  avatarUpload,
 } from "../middlewares";
 
 const userRouter = express.Router();
@@ -30,7 +28,7 @@ userRouter
   .route("/edit-profile")
   .all(protectorMiddleware)
   .get(getEdit)
-  .post(uploadFiles.single("avatar"), postEdit);
+  .post(avatarUpload.single("avatar"), postEdit);
 userRouter
   .route("/change-password")
   .all(protectorMiddleware)

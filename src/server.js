@@ -23,12 +23,13 @@ app.use(
   })
 );
 
-app.get("/add-one", (req, res, next) => {
+app.get("/add-one", (req, res) => {
   req.session.gogu += 1;
   return res.send(`${req.session.id}\n ${req.session.gogu}`);
 });
 
 app.use(localsMiddleware);
+app.use("/uploads", express.static("uploads"));
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
