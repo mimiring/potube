@@ -288,6 +288,23 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const see = (req, res) => {
-  res.send("See Profile");
+export const userPage = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+
+  if (!user) {
+    res.status(404).render("404", {
+      tabTitle: "Error",
+      pageTitle: "404 Not Found",
+      seoDescription: "404 Not Found",
+      errorMessage: "User not found",
+    });
+  }
+
+  res.render("userPage", {
+    tabTitle: `${user.name}'s Page`,
+    seoDescription: "User Page입니다",
+    errorMessage: null,
+    tempUser: [],
+  });
 };

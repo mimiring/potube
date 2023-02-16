@@ -7,6 +7,7 @@ import {
   getEdit,
   getChangePassword,
   postChangePassword,
+  userPage,
 } from "../controllers/userController";
 import {
   protectorMiddleware,
@@ -34,6 +35,7 @@ userRouter
   .all(protectorMiddleware)
   .get(getChangePassword)
   .post(postChangePassword);
+userRouter.route("/:id").get(userPage);
 userRouter.route("/logout").all(protectorMiddleware).get(logout);
 
 export default userRouter;
