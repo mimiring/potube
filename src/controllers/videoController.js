@@ -44,13 +44,14 @@ export const watch = async (req, res) => {
   const video = await Video.findById(id);
   const owner = await User.findById(video.owner);
 
-  if (!video) {
+  if (!video || !owner) {
     return res.status(404).render("404", {
       tabTitle: "Error",
       pageTitle: "404 Not Found",
       seoDescription: "404 Not Found",
       video,
       tempUser,
+      errorMessage: "404 Not Found",
     });
   }
 
