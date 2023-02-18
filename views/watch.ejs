@@ -17,12 +17,16 @@
       <% } %>
     </div>
     <small><%= video.createdAt %></small>
-    <div>
-      <a href="<%= video.id %>/edit">Edit Video &rarr;</a>
-    </div>
-    <div>
-      <a href="<%= video.id %>/delete">Delete Video &rarr;</a>
-    </div>
+    <small> Uploaded by <%= owner.name %></small>
+    <% if(String(video.owner) === loggedInUser._id) { %>
+      <div>
+        <a href="<%= video.id %>/edit">Edit Video &rarr;</a>
+      </div>
+      <div>
+        <a href="<%= video.id %>/delete">Delete Video &rarr;</a>
+      </div>
+      <% } %>
+    
     
 </div>
 

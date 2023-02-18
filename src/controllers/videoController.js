@@ -1,3 +1,4 @@
+import User from "../models/User";
 import Video from "../models/Video";
 
 const tempUser = {
@@ -41,6 +42,7 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
+  const owner = await User.findById(video.owner);
 
   if (!video) {
     return res.status(404).render("404", {
@@ -57,7 +59,7 @@ export const watch = async (req, res) => {
     pageTitle: `Watching ${video.title}`,
     seoDescription: "Potube에서 비디오를 보는 곳입니다",
     video,
-    tempUser,
+    owner,
   });
 };
 
@@ -118,6 +120,9 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
   const { path: fileUrl } = req.file;
   const { title, description, hashTags } = req.body;
 
@@ -126,6 +131,7 @@ export const postUpload = async (req, res) => {
       title,
       description,
       fileUrl,
+      owner: _id,
       hashTags: Video.formatHashTags(hashTags),
     });
 
