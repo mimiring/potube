@@ -1,4 +1,3 @@
-import User from "../models/User";
 import Video from "../models/Video";
 
 const tempUser = {
@@ -41,10 +40,10 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id);
-  const owner = await User.findById(video.owner);
+  const video = await Video.findById(id).populate("owner");
+  console.log(video);
 
-  if (!video || !owner) {
+  if (!video) {
     return res.status(404).render("404", {
       tabTitle: "Error",
       pageTitle: "404 Not Found",
@@ -60,7 +59,6 @@ export const watch = async (req, res) => {
     pageTitle: `Watching ${video.title}`,
     seoDescription: "Potube에서 비디오를 보는 곳입니다",
     video,
-    owner,
   });
 };
 
