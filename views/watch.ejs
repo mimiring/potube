@@ -17,7 +17,7 @@
       <% } %>
     </div>
     <small><%= video.createdAt %></small>
-    <small> Uploaded by <%= video.owner.name %></small>
+    <small>Uploaded by <a href="/users/<%= video.owner._id %>"><%= video.owner.name %></a></small>
     <% if(String(video.owner._id) === loggedInUser._id) { %>
       <div>
         <a href="<%= video.id %>/edit">Edit Video &rarr;</a>

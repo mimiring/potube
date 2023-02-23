@@ -1,4 +1,9 @@
 <%- include('partials/header'); %>
 <h2><%= tabTitle %></h2>
-
+<div>
+  <% for(video of videos) { %>
+    <h4><%= video.title %></h4>
+    <video src="/<%= video.fileUrl %>" controls style="width:600px"></video>
+  <% } %>
+</div>
 <%- include('partials/footer'); %>
