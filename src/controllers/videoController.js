@@ -1,4 +1,5 @@
 import Video from "../models/Video";
+import User from "../models/User";
 
 const tempUser = {
   username: "Posi",
@@ -41,7 +42,6 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner");
-  console.log(video);
 
   if (!video) {
     return res.status(404).render("404", {
@@ -126,13 +126,16 @@ export const postUpload = async (req, res) => {
   const { title, description, hashTags } = req.body;
 
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       fileUrl,
       owner: _id,
       hashTags: Video.formatHashTags(hashTags),
     });
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    user.save();
 
     return res.redirect("/");
   } catch (error) {

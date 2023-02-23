@@ -1,5 +1,4 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
@@ -292,8 +291,7 @@ export const logout = (req, res) => {
 
 export const userPage = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
-  const videos = await Video.find({ owner: user._id });
+  const user = await User.findById(id).populate("videos");
 
   if (!user) {
     res.status(404).render("404", {
@@ -308,7 +306,6 @@ export const userPage = async (req, res) => {
     tabTitle: `${user.name}'s Page`,
     seoDescription: "User Page입니다",
     errorMessage: null,
-    tempUser: [],
-    videos,
+    user,
   });
 };
