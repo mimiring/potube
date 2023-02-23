@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  logout,
   startGithubLogin,
   finishGithubLogin,
   postEdit,
@@ -36,6 +35,5 @@ userRouter
   .get(getChangePassword)
   .post(postChangePassword);
 userRouter.route("/:id").get(userPage);
-userRouter.route("/logout").all(protectorMiddleware).get(logout);
 
 export default userRouter;

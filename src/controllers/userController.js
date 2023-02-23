@@ -284,6 +284,7 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
+  console.log(req.session);
   req.session.destroy();
 
   return res.redirect("/");
