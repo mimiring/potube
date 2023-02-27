@@ -142,7 +142,7 @@ export const postChangePassword = async (req, res) => {
   await user.save();
   req.session.user.password = user.password;
 
-  return res.redirect("/users/logout");
+  return res.redirect("/logout");
 };
 
 export const remove = (req, res) => {
