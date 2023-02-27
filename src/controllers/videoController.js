@@ -76,6 +76,10 @@ export const getEdit = async (req, res) => {
     });
   }
 
+  if (String(video.owner) !== req.session.user._id) {
+    return res.status(403).redirect("/");
+  }
+
   return res.render("edit", {
     tabTitle: "Watch Video",
     pageTitle: `Edit : ${video.title}`,

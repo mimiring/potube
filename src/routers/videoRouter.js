@@ -20,7 +20,7 @@ videoRouter
   .all(protectorMiddleware)
   .get("/:id([0-9a-f]{24})/delete", deleteVideo);
 videoRouter
-  .route("/:id([0-9add-f]{24})/edit")
+  .route("/:id([0-9a-f]{24})/edit")
   .all(protectorMiddleware)
   .get(getEdit);
 
