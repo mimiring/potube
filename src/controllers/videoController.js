@@ -174,6 +174,21 @@ export const search = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const video = await Video.findById(id);
+
+  if (!video) {
+    return res.status(404).render("404", {
+      tabTitle: "Error",
+      pageTitle: "Video Not Found",
+      seoDescription: "404 Not Found",
+      tempUser,
+      errorMessage: "Video Not Found",
+    });
+  }
+
+  if (String(video.owner) !== req.session.user._id) {
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
 
   return res.redirect("/");
