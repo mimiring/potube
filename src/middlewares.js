@@ -8,4 +8,19 @@ export const localsMiddleware = (req, res, next) => {
   next();
 };
 
+export const protectorMiddleware = (req, res, next) => {
+  if (req.session.loggedIn) {
+    return next();
+  }
+  return res.status(400).send({ errorMessage: "로그인하십쇼" });
+};
+
+export const publicOnlyMiddleware = (req, res, next) => {
+  if (!req.session.loggedIn) {
+    return next();
+  }
+
+  return res.status(400).send({ errorMessage: "로그인 안한 사람만 가능" });
+};
+
 export const uploadFiles = multer({ dest: "uploads/" });
