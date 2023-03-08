@@ -34,17 +34,26 @@ export const postJoin = async (req, res) => {
 };
 
 export const putEditProfile = async (req, res) => {
-  const newUserInfo = req.body;
-  const email = newUserInfo.email;
-  const user = await User.findOne({ email });
+  const { user } = req.session;
+  const { name, email, username, location } = req.body;
 
-  if (!user) {
+  const findUser = await User.findById(user._id);
+
+  if (!findUser) {
     return res.status(400).send({
       errorMessage: "An account with this email does not exists",
     });
   }
 
-  res.send({ ok: true, user: newUserInfo });
+  await User.findByIdAndUpdate(user._id, {
+    ...req.session.user,
+    name,
+    email,
+    username,
+    location,
+  });
+
+  return res.send({ ok: true, user: { name, email, username, location } });
 };
 
 export const putEditPassword = async (req, res) => {
